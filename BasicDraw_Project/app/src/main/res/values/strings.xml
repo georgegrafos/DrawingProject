@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Drawing</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_erase">Erase</string>
+    <string name="tool_rect">Rectangle</string>
+    <string name="tool_line">Line</string>
+    <string name="tool_square">Square</string>
+    <string name="tool_ellipse">Ellipse</string>
+    <string name="tool_circle">Circle</string>
+    <string name="tool_width">Width</string>
+    <string name="tool_bg">Background</string>
+    <string name="tool_fg">Foreground</string>
+    <string name="tool_done">Done</string>
+    <string name="desc">An Image</string>
+    <string name="tools_dialog_title">Configure Tool</string>
+    <string name="colour_chooser_dialog_title">Choose Colour</string>
+    <string name="width_done">Set</string>
+
+</resources>
