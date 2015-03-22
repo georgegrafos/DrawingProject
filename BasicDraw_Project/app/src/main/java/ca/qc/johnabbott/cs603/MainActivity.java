@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
@@ -43,7 +44,10 @@ public class MainActivity extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.menu_save:
-                drawing.getPicture().convertToJSON();
+                if(drawing.getPicture().numShapes() > 0)
+                    drawing.getPicture().convertToJSON();
+                else
+                    Toast.makeText(this, "Picture is empty, cannot save", Toast.LENGTH_SHORT).show();
                 return true;
         }
         return super.onOptionsItemSelected(item);
