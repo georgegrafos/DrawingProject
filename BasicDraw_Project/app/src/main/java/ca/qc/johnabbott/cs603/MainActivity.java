@@ -1,5 +1,6 @@
 package ca.qc.johnabbott.cs603;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
@@ -36,6 +37,10 @@ public class MainActivity extends Activity {
                 return true;
             case R.id.menu_menu:
                 showMenuDialog();
+                return true;
+            case R.id.menu_create_account:
+                Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
