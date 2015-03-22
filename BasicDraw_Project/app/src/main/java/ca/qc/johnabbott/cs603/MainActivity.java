@@ -42,6 +42,9 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
                 startActivity(intent);
                 return true;
+            case R.id.menu_save:
+                drawing.getPicture().convertToJSON();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

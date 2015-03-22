@@ -6,6 +6,9 @@ import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.RectF;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by AlexGenio on 15-03-04.
  */
@@ -43,5 +46,19 @@ public class Ellipse extends Shape {
             canvas.drawOval(new RectF(x1, y1, x2, y2), paint);
         }
 
+    }
+
+    public JSONObject toJSON(JSONObject jsonObject){
+        try {
+            jsonObject.put("startX", this.x1);
+            jsonObject.put("startY", this.y1);
+            jsonObject.put("endX", this.x2);
+            jsonObject.put("endY", this.y2);
+            return jsonObject;
+        }catch (JSONException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 }

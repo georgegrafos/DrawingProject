@@ -2,6 +2,10 @@ package ca.qc.johnabbott.cs603;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.Patterns;
 import android.view.View;
 import android.content.Intent;
@@ -26,16 +30,26 @@ public class LoginActivity extends Activity {
         String userEmail = email.getText().toString();
         String userPass = password.getText().toString();
 
+        String errorMsg = "Invalid field(s): \n\n";
+        Boolean isError = false;
         Pattern emailRegEx = Patterns.EMAIL_ADDRESS;
 
-        if(userEmail.matches("") && userPass.matches("")) {
-            Toast.makeText(this, "You did not enter an email and password", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(userEmail.matches("") || !emailRegEx.matcher(userEmail).matches()) {
-            Toast.makeText(this, "You did not enter a proper email", Toast.LENGTH_SHORT).show();
-            return;
-        }else if(userPass.matches("")) {
-            Toast.makeText(this, "You did not enter a password", Toast.LENGTH_SHORT).show();
+        if(userEmail.matches("") || !emailRegEx.matcher(userEmail).matches()) {
+            errorMsg += "Email\n";
+            isError = true;
+        }
+        if(userPass.matches("")) {
+            errorMsg += "Password";
+            isError = true;
+        }
+
+        if(isError){
+            //center text within toast
+            Spannable centeredText = new SpannableString(errorMsg);
+            centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                    0, errorMsg.length() - 1,
+                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+            Toast.makeText(this, centeredText, Toast.LENGTH_SHORT).show();
             return;
         }else{
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);

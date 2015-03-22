@@ -4,6 +4,8 @@ package ca.qc.johnabbott.cs603.Shapes;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import org.json.JSONObject;
+
 public abstract class Shape {
 
     protected int strokeColor;
@@ -42,5 +44,5 @@ public abstract class Shape {
     }
 
     public abstract void draw(Paint paint, Canvas canvas);
-
+    public abstract JSONObject toJSON(JSONObject jsonObject);
 }
