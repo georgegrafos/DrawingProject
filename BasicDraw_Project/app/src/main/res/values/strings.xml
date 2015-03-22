@@ -17,5 +17,11 @@
     <string name="tools_dialog_title">Configure Tool</string>
     <string name="colour_chooser_dialog_title">Choose Colour</string>
     <string name="width_done">Set</string>
+    <string name="logIn">Log In</string>
+    <string name="signIn">Sign In</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
