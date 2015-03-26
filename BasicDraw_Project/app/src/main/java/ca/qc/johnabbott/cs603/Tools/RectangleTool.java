@@ -11,33 +11,22 @@ public class RectangleTool extends RectangleBasedTool {
         super(tbox, ToolName.RECTANGLE);
     }
 
-    private void buildRectangle(){
-        float tmpX, tmpY;
-        //get the leftmost x as starting coordinate
-        if(x1 > x2){
-            tmpX = x2;
-            x2 = x1;
-            x1 = tmpX;
-        }
-        //get the topmost y as starting coordinate
-        if(y1 > y2){
-            tmpY = y2;
-            y2 = y1;
-            y1 = tmpY;
-        }
-    }
-
     @Override
     public void addToDrawing() {
-        buildRectangle();
         Rectangle rect = new Rectangle(x1,y1,x2, y2, toolbox.getStrokeColor(), toolbox.getStrokeWidth(), toolbox.getFillColor());
         toolbox.getDrawingView().addShape(rect);
         toolbox.getDrawingView().invalidate();
     }
 
     public void drawPreview(Canvas canvas){
-        buildRectangle();
-        canvas.drawRect(x1, y1, x2, y2, getPreviewPaint());
+        if(x1 > x2 && y1 > y2)
+            canvas.drawRect(x2, y2, x1, y1, getPreviewPaint());
+        else if(x1 > x2)
+            canvas.drawRect(x2, y1, x1, y2, getPreviewPaint());
+        else if(y1 > y2)
+            canvas.drawRect(x1, y2, x2, y1, getPreviewPaint());
+        else
+            canvas.drawRect(x1, y1, x2, y2, getPreviewPaint());
     }
 
 }

@@ -32,6 +32,19 @@ public class Rectangle extends Shape {
         // reset any path effect
         paint.setPathEffect(null);
 
+        //get the leftmost x as starting coordinate
+        if(x1 > x2){
+            tmpX = x2;
+            x2 = x1;
+            x1 = tmpX;
+        }
+        //get the topmost y as starting coordinate
+        if(y1 > y2){
+            tmpY = y2;
+            y2 = y1;
+            y1 = tmpY;
+        }
+
         if(fillColor != Color.TRANSPARENT) {
             paint.setColor(fillColor);
             paint.setStyle(Style.FILL);

@@ -24,12 +24,25 @@ public class SquareTool extends RectangleBasedTool {
             //account for direction of drag
             //is the width the shortest?
             if(distX < distY) {
-                y2 = y1 + distX;
+                //bottom right to top left
+                if(x1 > x2 && y1 > y2)
+                    y2 = y1 - distX;
+                //bottom left to top right
+                else if(x2 > x1 && y2 < y1)
+                    y2 = y1 - distX;
+                else
+                    y2 = y1 + distX;
             }else{
-                x2 = x1 + distY;
+                if(x1 > x2 && y1 > y2)
+                    x2 = x1 - distY;
+                else if(x2 < x1 && y2 > y1)
+                    x2 = x1 - distY;
+                else
+                    x2 = x1 + distY;
             }
         }
     }
+
     @Override
     public void addToDrawing() {
         buildSquare();
@@ -40,6 +53,13 @@ public class SquareTool extends RectangleBasedTool {
 
     public void drawPreview(Canvas canvas){
         buildSquare();
-        canvas.drawRect(x1, y1, x2, y2, getPreviewPaint());
+        if(x1 > x2 && y1 > y2)
+            canvas.drawRect(x2, y2, x1, y1, getPreviewPaint());
+        else if(x1 > x2)
+            canvas.drawRect(x2, y1, x1, y2, getPreviewPaint());
+        else if(y1 > y2)
+            canvas.drawRect(x1, y2, x2, y1, getPreviewPaint());
+        else
+            canvas.drawRect(x1, y1, x2, y2, getPreviewPaint());
     }
 }

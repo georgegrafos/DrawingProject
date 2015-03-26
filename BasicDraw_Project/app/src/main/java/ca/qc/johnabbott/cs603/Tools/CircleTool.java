@@ -22,11 +22,24 @@ public class CircleTool extends RectangleBasedTool {
             //take the width and make a square
             float distX = Math.abs(x2-x1);
             float distY = Math.abs(y2-y1);
+            //account for direction of drag
             //is the width the shortest?
             if(distX < distY) {
-                y2 = y1 + distX;
+                //bottom right to top left
+                if(x1 > x2 && y1 > y2)
+                    y2 = y1 - distX;
+                    //bottom left to top right
+                else if(x2 > x1 && y2 < y1)
+                    y2 = y1 - distX;
+                else
+                    y2 = y1 + distX;
             }else{
-                x2 = x1 + distY;
+                if(x1 > x2 && y1 > y2)
+                    x2 = x1 - distY;
+                else if(x2 < x1 && y2 > y1)
+                    x2 = x1 - distY;
+                else
+                    x2 = x1 + distY;
             }
         }
 
@@ -42,6 +55,13 @@ public class CircleTool extends RectangleBasedTool {
 
     public void drawPreview(Canvas canvas){
         buildCircle();
-        canvas.drawOval(new RectF(x1, y1, x2, y2), getPreviewPaint());
+        if(x1 > x2 && y1 > y2)
+            canvas.drawOval(new RectF(x2, y2, x1, y1), getPreviewPaint());
+        else if(x1 > x2)
+            canvas.drawOval(new RectF(x2, y1, x1, y2), getPreviewPaint());
+        else if(y1 > y2)
+            canvas.drawOval(new RectF(x1, y2, x2, y1), getPreviewPaint());
+        else
+            canvas.drawOval(new RectF(x1, y1, x2, y2), getPreviewPaint());
     }
 }
