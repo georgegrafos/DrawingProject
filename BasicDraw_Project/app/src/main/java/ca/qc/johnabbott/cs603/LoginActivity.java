@@ -56,4 +56,9 @@ public class LoginActivity extends Activity {
             startActivity(intent);
         }
     }
+
+    public void startCreateAccountActivity(View view) {
+        Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
+        startActivity(intent);
+    }
 }

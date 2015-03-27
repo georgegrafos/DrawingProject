@@ -1,6 +1,7 @@
 package ca.qc.johnabbott.cs603;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.Spannable;
@@ -63,5 +64,10 @@ public class CreateAccountActivity extends Activity {
             finish();
             return;
         }
+    }
+
+    public void startLogInActivity(View view) {
+        Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }

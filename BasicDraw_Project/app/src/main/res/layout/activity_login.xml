@@ -41,4 +41,13 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="75dp"
         android:onClick="startDrawingActivity" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/createAccount"
+        android:id="@+id/btnCreateAccount"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="75dp"
+        android:onClick="startCreateAccountActivity" />
 </LinearLayout>
