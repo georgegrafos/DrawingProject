@@ -46,10 +46,6 @@ public class MainActivity extends Activity {
             case R.id.menu_menu:
                 showMenuDialog();
                 return true;
-            case R.id.menu_create_account:
-                Intent intent = new Intent(MainActivity.this, CreateAccountActivity.class);
-                startActivity(intent);
-                return true;
             case R.id.menu_save:
                 //only save picture if something is drawn
                 if(drawing.getPicture().numShapes() > 0) {
