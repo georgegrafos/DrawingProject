@@ -24,11 +24,8 @@ public class Rectangle extends Shape {
         this.y2 = y2;
     }
 
-
-
     @Override
     public void draw(Paint paint, Canvas canvas) {
-
         // reset any path effect
         paint.setPathEffect(null);
 
@@ -57,15 +54,19 @@ public class Rectangle extends Shape {
             paint.setStrokeCap(Paint.Cap.ROUND);
             canvas.drawRect(x1, y1, x2, y2, paint);
         }
-
     }
 
-    public JSONObject toJSON(JSONObject jsonObject){
+    public JSONObject toJSON(){
+        JSONObject jsonObject = new JSONObject();
         try {
+            jsonObject.put("type", "rectangle");
             jsonObject.put("startX", this.x1);
             jsonObject.put("startY", this.y1);
             jsonObject.put("endX", this.x2);
             jsonObject.put("endY", this.y2);
+            jsonObject.put("fillColor", getFillColor());
+            jsonObject.put("strokeColor", getStrokeColor());
+            jsonObject.put("strokeWidth", getStrokeWidth());
             return jsonObject;
         }catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -73,5 +74,4 @@ public class Rectangle extends Shape {
             return null;
         }
     }
-
 }

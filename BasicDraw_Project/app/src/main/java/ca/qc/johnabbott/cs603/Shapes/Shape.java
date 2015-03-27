@@ -44,5 +44,6 @@ public abstract class Shape {
     }
 
     public abstract void draw(Paint paint, Canvas canvas);
-    public abstract JSONObject toJSON(JSONObject jsonObject);
+
+    public abstract JSONObject toJSON();
 }

@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
@@ -50,9 +54,7 @@ public class MainActivity extends Activity {
                 //only save picture if something is drawn
                 if(drawing.getPicture().numShapes() > 0) {
                     //get JSON of picture
-                    ArrayList<String> converted = drawing.getPicture().convertToJSON();
-                    for(String s : converted)
-                        Log.e("JSON", s.toString());
+                    Log.d("JSON", drawing.getPicture().convertToJSON().toString());
                 }
                 else
                     Toast.makeText(this, "Picture is empty, cannot save", Toast.LENGTH_SHORT).show();
