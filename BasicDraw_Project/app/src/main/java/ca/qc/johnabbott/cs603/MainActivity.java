@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -44,8 +47,13 @@ public class MainActivity extends Activity {
                 startActivity(intent);
                 return true;
             case R.id.menu_save:
-                if(drawing.getPicture().numShapes() > 0)
-                    drawing.getPicture().convertToJSON();
+                //only save picture if something is drawn
+                if(drawing.getPicture().numShapes() > 0) {
+                    //get JSON of picture
+                    ArrayList<String> converted = drawing.getPicture().convertToJSON();
+                    for(String s : converted)
+                        Log.e("JSON", s.toString());
+                }
                 else
                     Toast.makeText(this, "Picture is empty, cannot save", Toast.LENGTH_SHORT).show();
                 return true;
