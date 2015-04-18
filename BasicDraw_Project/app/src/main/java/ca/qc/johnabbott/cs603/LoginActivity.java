@@ -1,6 +1,7 @@
 package ca.qc.johnabbott.cs603;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Layout;
 import android.text.Spannable;
@@ -14,28 +15,32 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import ca.qc.johnabbott.cs603.Tasks.AsyncLogin;
+
 
 public class LoginActivity extends Activity {
+
+    private static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        this.context = getApplicationContext();
     }
 
     public void startDrawingActivity(View view) {
-        EditText email = (EditText) findViewById(R.id.email);
+        EditText user = (EditText) findViewById(R.id.username);
         EditText password = (EditText) findViewById(R.id.password);
 
-        String userEmail = email.getText().toString();
+        String userName = user.getText().toString();
         String userPass = password.getText().toString();
 
         String errorMsg = "Invalid field(s): \n\n";
         Boolean isError = false;
-        Pattern emailRegEx = Patterns.EMAIL_ADDRESS;
 
-        if(userEmail.matches("") || !emailRegEx.matcher(userEmail).matches()) {
-            errorMsg += "Email\n";
+        if(userName.matches("")) {
+            errorMsg += "Username\n";
             isError = true;
         }
         if(userPass.matches("")) {
@@ -44,21 +49,35 @@ public class LoginActivity extends Activity {
         }
 
         if(isError){
-            //center text within toast
-            Spannable centeredText = new SpannableString(errorMsg);
-            centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-                    0, errorMsg.length() - 1,
-                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            Toast.makeText(this, centeredText, Toast.LENGTH_SHORT).show();
-            return;
+            displayMessage(errorMsg);
         }else{
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
+            // asynchronously verify the login
+            AsyncLogin loginTask = new AsyncLogin(userName, userPass);
+            loginTask.execute();
         }
     }
 
     public void startCreateAccountActivity(View view) {
         Intent intent = new Intent(LoginActivity.this, CreateAccountActivity.class);
         startActivity(intent);
+    }
+
+    // display messages related to the login process
+    public static void displayMessage(String message){
+        Spannable centeredText = new SpannableString(message);
+        centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0, message.length() - 1,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        return;
+    }
+
+    // start drawing activity on successful login
+    public static void goToDraw(String token, String username){
+        // do something with the token
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        displayMessage("Welcome " + username + "!");
+        context.startActivity(intent);
     }
 }
