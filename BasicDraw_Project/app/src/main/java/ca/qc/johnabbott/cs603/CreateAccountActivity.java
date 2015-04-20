@@ -1,6 +1,7 @@
 package ca.qc.johnabbott.cs603;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Layout;
@@ -14,15 +15,20 @@ import android.widget.Toast;
 
 import java.util.regex.Pattern;
 
+import ca.qc.johnabbott.cs603.Tasks.AsyncCreateAccount;
+
 /**
  * Created by AlexGenio on 15-03-21.
  */
 public class CreateAccountActivity extends Activity {
 
+    private static Context context;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+        this.context = getApplicationContext();
     }
 
     public void createAccount(View view) {
@@ -52,17 +58,10 @@ public class CreateAccountActivity extends Activity {
             isError = true;
         }
         if(isError){
-            //center text within toast
-            Spannable centeredText = new SpannableString(errorMsg);
-            centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
-                    0, errorMsg.length() - 1,
-                    Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-            Toast.makeText(this, centeredText, Toast.LENGTH_SHORT).show();
-            return;
+            displayMessage(errorMsg);
         }else{
-            Toast.makeText(this, "Account has successfully been created!", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
+            AsyncCreateAccount task = new AsyncCreateAccount(userName, userEmail, userPass);
+            task.execute();
         }
     }
 
@@ -70,4 +69,15 @@ public class CreateAccountActivity extends Activity {
         Intent intent = new Intent(CreateAccountActivity.this, LoginActivity.class);
         startActivity(intent);
     }
+
+    // display messages related to the login process
+    public static void displayMessage(String message){
+        Spannable centeredText = new SpannableString(message);
+        centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0, message.length() - 1,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        return;
+    }
+
 }
