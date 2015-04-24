@@ -42,11 +42,11 @@ public class Picture {
         shapes.clear();
     }
 
-    public JSONObject convertToJSON() {
+    public JSONObject convertToJSON(String name) {
         JSONArray arr = new JSONArray();
         JSONObject obj = new JSONObject();
         try {
-            obj.put("name", "Collage");
+            obj.put("name", name);
             obj.put("size", this.numShapes());
             for(Shape s: this.shapes){
                 arr.put(s.toJSON());
