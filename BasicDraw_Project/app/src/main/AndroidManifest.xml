@@ -27,8 +27,7 @@
             android:label="@string/app_name" />
         <activity
             android:name=".DrawingList"
-            android:label="@string/title_activity_drawing_list" >
-        </activity>
+            android:label="@string/title_activity_drawing_list" />
     </application>
 
 </manifest>

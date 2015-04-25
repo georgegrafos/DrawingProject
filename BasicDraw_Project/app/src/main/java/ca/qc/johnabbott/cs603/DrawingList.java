@@ -1,6 +1,7 @@
 package ca.qc.johnabbott.cs603;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +28,7 @@ public class DrawingList extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+        super.onCreateOptionsMenu(menu);
         getMenuInflater().inflate(R.menu.menu_drawing_list, menu);
         return true;
     }
@@ -39,7 +41,9 @@ public class DrawingList extends Activity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_draw) {
+            Intent intent = new Intent(DrawingList.this, MainActivity.class);
+            startActivity(intent);
             return true;
         }
 

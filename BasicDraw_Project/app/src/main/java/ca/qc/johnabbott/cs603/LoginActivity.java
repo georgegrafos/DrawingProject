@@ -72,7 +72,7 @@ public class LoginActivity extends Activity {
         return;
     }
 
-    // start drawing list activity on successful login
+    // start drawing activity on successful login
     public static void startDrawingListActivity(String token, String username){
         // do something with the token
         Intent intent = new Intent(context, DrawingList.class);
