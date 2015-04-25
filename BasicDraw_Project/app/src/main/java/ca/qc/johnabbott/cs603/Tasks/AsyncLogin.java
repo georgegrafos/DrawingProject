@@ -73,7 +73,7 @@ public class AsyncLogin extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         // Bring the user to the new activity on success
         if(this.success){
-            LoginActivity.goToDraw(result, this.username);
+            LoginActivity.startDrawingListActivity(result, this.username);
         }else{
             // display error messages
             LoginActivity.displayMessage(result);

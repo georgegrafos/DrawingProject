@@ -70,6 +70,14 @@ public class CreateAccountActivity extends Activity {
         startActivity(intent);
     }
 
+    public static void startDrawingListActivity(String accNum, String username) {
+        // do something with the token
+        Intent intent = new Intent(context, DrawingList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        displayMessage("Account number " + accNum + " created for " + username);
+        context.startActivity(intent);
+    }
+
     // display messages related to the login process
     public static void displayMessage(String message){
         Spannable centeredText = new SpannableString(message);

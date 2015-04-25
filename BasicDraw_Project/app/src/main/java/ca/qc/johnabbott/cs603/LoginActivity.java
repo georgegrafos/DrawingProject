@@ -72,10 +72,10 @@ public class LoginActivity extends Activity {
         return;
     }
 
-    // start drawing activity on successful login
-    public static void goToDraw(String token, String username){
+    // start drawing list activity on successful login
+    public static void startDrawingListActivity(String token, String username){
         // do something with the token
-        Intent intent = new Intent(context, MainActivity.class);
+        Intent intent = new Intent(context, DrawingList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         displayMessage("Welcome " + username + "!");
         context.startActivity(intent);
