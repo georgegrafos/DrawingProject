@@ -21,8 +21,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ca.qc.johnabbott.cs603.Tasks.AsyncSavePic;
+
 public class MainActivity extends Activity {
 
+    public static String token;
     private DrawingView drawing;
     private Dialog current;
     private AlertDialog.Builder alert;
@@ -120,8 +123,9 @@ public class MainActivity extends Activity {
                     dialog.dismiss();
                 else{
                     if(drawing.getPicture().numShapes() > 0) {
-                        //get JSON of picture
-                        Log.d("JSON", drawing.getPicture().convertToJSON(name).toString());
+                        //save picture
+                        AsyncSavePic save = new AsyncSavePic(drawing.getPicture().convertToJSON(name).toString(), token);
+                        save.execute();
                     }
                     else
                         Toast.makeText(context, "Picture is empty, cannot save", Toast.LENGTH_SHORT).show();
