@@ -78,6 +78,7 @@ public class LoginActivity extends Activity {
         Intent intent = new Intent(context, DrawingList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         displayMessage("Welcome " + username + "!");
+        intent.putExtra("token", token);
         context.startActivity(intent);
     }
 }
