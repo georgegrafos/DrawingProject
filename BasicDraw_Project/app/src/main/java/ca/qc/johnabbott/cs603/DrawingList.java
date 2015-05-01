@@ -25,7 +25,6 @@ import ca.qc.johnabbott.cs603.Tasks.AsyncDrawingList;
 
 
 public class DrawingList extends Activity {
-    private static Context context;
     private ListView drawingView;
     private ArrayAdapter<String> arrayAdapter;
 
@@ -33,15 +32,15 @@ public class DrawingList extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drawing_list);
-        context = getApplicationContext();
+        MainActivity.context = getApplicationContext();
 
         // get token from LoginActivity
-        Intent intent = getIntent();
-        String token = intent.getStringExtra("token");
+        //Intent intent = getIntent();
+        //String token = intent.getStringExtra("token");
 
         this.drawingView = (ListView) findViewById(android.R.id.list);
 
-        AsyncDrawingList drawingListTask = new AsyncDrawingList(token, this);
+        AsyncDrawingList drawingListTask = new AsyncDrawingList(MainActivity.token, this);
         drawingListTask.execute();
     }
 
@@ -81,9 +80,8 @@ public class DrawingList extends Activity {
                 String name = json_data.getString("name");
                 items.add(name);
             }
-
             // populate ListView
-            arrayAdapter = new ArrayAdapter<String>(context, R.layout.custom_layout, items);
+            arrayAdapter = new ArrayAdapter<String>(MainActivity.context, R.layout.custom_layout, items);
             this.drawingView.setAdapter(arrayAdapter);
         }catch (JSONException e){
             e.printStackTrace();
@@ -94,7 +92,7 @@ public class DrawingList extends Activity {
         Spannable centeredText = new SpannableString(message);
         centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                 0, message.length() - 1, Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.context, centeredText, Toast.LENGTH_SHORT).show();
         return;
     }
 }

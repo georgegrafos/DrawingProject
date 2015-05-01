@@ -80,7 +80,7 @@ public class AsyncCreateAccount extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         // Bring the user to the new activity on success
         if(this.success){
-            CreateAccountActivity.startDrawingListActivity(result, this.username);
+            CreateAccountActivity.redirectToLogin(result, this.username);
         }else{
             // display error messages
             CreateAccountActivity.displayMessage(result);

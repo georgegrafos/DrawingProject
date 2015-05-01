@@ -20,13 +20,11 @@ import ca.qc.johnabbott.cs603.Tasks.AsyncLogin;
 
 public class LoginActivity extends Activity {
 
-    private static Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        this.context = getApplicationContext();
+        MainActivity.context = getApplicationContext();
     }
 
     public void startDrawingActivity(View view) {
@@ -68,17 +66,17 @@ public class LoginActivity extends Activity {
         centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                 0, message.length() - 1,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.context, centeredText, Toast.LENGTH_SHORT).show();
         return;
     }
 
     // start drawing activity on successful login
     public static void startDrawingListActivity(String token, String username){
-        // do something with the token
-        Intent intent = new Intent(context, DrawingList.class);
+        MainActivity.token = token;
+        Intent intent = new Intent(MainActivity.context, DrawingList.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         displayMessage("Welcome " + username + "!");
-        intent.putExtra("token", token);
-        context.startActivity(intent);
+        //intent.putExtra("token", token);
+        MainActivity.context.startActivity(intent);
     }
 }

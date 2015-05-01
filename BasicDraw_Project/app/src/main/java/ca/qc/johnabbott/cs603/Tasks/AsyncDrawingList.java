@@ -22,7 +22,7 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
 
     public AsyncDrawingList(String token, DrawingList caller) {
         this.caller = caller;
-        this.token = token.trim();
+        this.token = token;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
 
                 // handle the output cases
                 if(response.equalsIgnoreCase("empty")) {
-                    return "You have no drawings!";
+                    return "empty";
                 }else{
                     return response;
                 }
@@ -66,7 +66,7 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         if(result.equals("empty")) {
-            DrawingList.displayMessage(result);
+            DrawingList.displayMessage("You have no drawings!");
         }else{
             caller.createListView(result);
         }

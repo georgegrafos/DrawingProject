@@ -1,25 +1,15 @@
 package ca.qc.johnabbott.cs603.Tasks;
 
 import android.os.AsyncTask;
-import android.util.Log;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.URLEncoder;
 import java.util.Scanner;
+import ca.qc.johnabbott.cs603.MainActivity;
 
 /**
  * Created by AlexGenio on 15-04-28.
@@ -37,63 +27,63 @@ public class AsyncSavePic extends AsyncTask<String, Void, String> {
 
     @Override
     protected String doInBackground(String... params) {
-            // TODO Auto-generated method stub
-            try {
+        URL url;
+        HttpURLConnection con= null;
+        // TODO Auto-generated method stub
+        try {
+            //Create connection
+            url = new URL("http://linux2-cs.johnabbott.qc.ca/~cs506_f14_10/androidApp/API/add_pic.php?token=" + this.token.toString());
+            con = (HttpURLConnection)url.openConnection();
+            con.setRequestMethod("POST");
+            con.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+            String urlParameters ="encoded_string=" + URLEncoder.encode(this.jSON, "UTF-8");
+            con.setRequestProperty("Content-Length", "" + Integer.toString(urlParameters.getBytes().length));
+            con.setRequestProperty("Content-Language", "en-US");
+            con.setUseCaches (false);
+            con.setDoInput(true);
+            con.setDoOutput(true);
 
-                HttpClient client = new DefaultHttpClient();
-                HttpPost post = new HttpPost("http://linux2-cs.johnabbott.qc.ca/~cs506_f14_10/androidApp/API/add_pic.php?token=" + this.token.toString());
+            //Send request
+            DataOutputStream wr = new DataOutputStream(con.getOutputStream ());
+            wr.writeBytes (urlParameters);
+            wr.flush ();
+            wr.close ();
 
-                List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-                pairs.add(new BasicNameValuePair("encoded_string", this.jSON));
-                post.setEntity(new UrlEncodedFormEntity(pairs));
+            if (con.getResponseCode() == 200) {
+                // retrieve the output from the request
+                Scanner scanner = new Scanner(con.getInputStream()).useDelimiter("\\A");
+                String response = scanner.hasNext() ? scanner.next() : "";
 
-                post.setHeader("Accept", "application/json");
-                post.setHeader("Content-type", "application/json");
-
-                HttpResponse response = client.execute(post);
-
-                if (response.getStatusLine().getStatusCode() == 200) {
-                    Scanner scanner = new Scanner(response.getEntity().getContent());
-                    String res = scanner.hasNext() ? scanner.next() : "";
-                    Log.d("SDSDVSSDVSDVSVSV", res.toString());
-                }else{
-                    return "Connection could not be established, check your network connection";
-                }
-
-                /*// handle the output case
                 if(response.equalsIgnoreCase("error-1")) {
-                    return "Blank fields";
-                }
-                else if (response.equalsIgnoreCase("error-2")) {
-                    return "Username already in use";
-                }
-                else if (response.equalsIgnoreCase("error-3")){
-                    return "Email already in use";
-                }
-                else{
+                    return "Blank Picture";
+                }else if(response.equalsIgnoreCase("invalid/expired token")){
+                    return "Expired Token";
+                }else{
                     this.success = true;
-                    return response.replace("created-account_id=", "");
-                }*/
-            }catch (UnsupportedEncodingException e){
-                e.printStackTrace();
-            }catch (IOException e){
-                // Something went wrong with getting the input stream, probably a network error
+                    return response.replace("picture_id=", "");
+                }
+            }else{
                 return "Connection could not be established, check your network connection";
             }
-            return null;
+        }catch (UnsupportedEncodingException e){
+            e.printStackTrace();
+        }catch (MalformedURLException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            // Something went wrong with getting the input stream, probably a network error
+            return "Connection could not be established, check your network connection";
+        }
+        return null;
     }
 
     // gets called once doInBackground is completed
     // parameter "result" is the result of the return in doInBackground
     @Override
     protected void onPostExecute(String result) {
-            // Bring the user to the new activity on success
-            /*if(this.success){
-                CreateAccountActivity.startDrawingListActivity(result, this.username);
-            }else{
-                // display error messages
-                CreateAccountActivity.displayMessage(result);
-            }*/
-            return;
+        if(this.success)
+            MainActivity.displayMessage("Picture saved!");
+        else
+            MainActivity.displayMessage(result);
+        return;
     }
 }

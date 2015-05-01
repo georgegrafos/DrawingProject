@@ -22,13 +22,11 @@ import ca.qc.johnabbott.cs603.Tasks.AsyncCreateAccount;
  */
 public class CreateAccountActivity extends Activity {
 
-    private static Context context;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-        this.context = getApplicationContext();
+        MainActivity.context = getApplicationContext();
     }
 
     public void createAccount(View view) {
@@ -70,12 +68,12 @@ public class CreateAccountActivity extends Activity {
         startActivity(intent);
     }
 
-    public static void startDrawingListActivity(String accNum, String username) {
+    public static void redirectToLogin(String accNum, String username) {
         // do something with the token
-        Intent intent = new Intent(context, DrawingList.class);
+        Intent intent = new Intent(MainActivity.context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         displayMessage("Account number " + accNum + " created for " + username);
-        context.startActivity(intent);
+        MainActivity.context.startActivity(intent);
     }
 
     // display messages related to the login process
@@ -84,7 +82,7 @@ public class CreateAccountActivity extends Activity {
         centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
                 0, message.length() - 1,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.context, centeredText, Toast.LENGTH_SHORT).show();
         return;
     }
 

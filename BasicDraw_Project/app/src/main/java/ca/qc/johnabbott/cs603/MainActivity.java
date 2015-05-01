@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.Dialog;
+import android.text.Layout;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.AlignmentSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +30,7 @@ import ca.qc.johnabbott.cs603.Tasks.AsyncSavePic;
 public class MainActivity extends Activity {
 
     public static String token;
+    public static Context context;
     private DrawingView drawing;
     private Dialog current;
     private AlertDialog.Builder alert;
@@ -35,6 +40,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         drawing = (DrawingView)this.findViewById(R.id.drawing_view);
+        context = this.getApplicationContext();
     }
 
     @Override
@@ -60,6 +66,16 @@ public class MainActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // display messages related to the login process
+    public static void displayMessage(String message){
+        Spannable centeredText = new SpannableString(message);
+        centeredText.setSpan(new AlignmentSpan.Standard(Layout.Alignment.ALIGN_CENTER),
+                0, message.length() - 1,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        Toast.makeText(context, centeredText, Toast.LENGTH_SHORT).show();
+        return;
     }
 
     private void showToolsDialog() {
