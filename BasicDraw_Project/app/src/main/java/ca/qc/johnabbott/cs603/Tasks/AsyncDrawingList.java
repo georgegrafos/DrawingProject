@@ -18,9 +18,11 @@ import ca.qc.johnabbott.cs603.DrawingList;
  */
 public class AsyncDrawingList extends AsyncTask<String, Void, String> {
     private String token;
+    private DrawingList caller;
 
-    public AsyncDrawingList(String token) {
-        this.token = token;
+    public AsyncDrawingList(String token, DrawingList caller) {
+        this.caller = caller;
+        this.token = token.trim();
     }
 
     @Override
@@ -38,10 +40,9 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
             // communication was successful?
             if (con.getResponseCode() == 200) {
                 // retrieve the output from the request
-                Scanner scanner = new Scanner(con.getInputStream());
+                Scanner scanner = new Scanner(con.getInputStream()).useDelimiter("\\A");
                 String response = scanner.hasNext() ? scanner.next() : "";
 
-                System.out.println(response);
                 // handle the output cases
                 if(response.equalsIgnoreCase("empty")) {
                     return "You have no drawings!";
@@ -64,11 +65,10 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
     // parameter "result" is the result of the return in doInBackground
     @Override
     protected void onPostExecute(String result) {
-        if(result == "empty") {
+        if(result.equals("empty")) {
             DrawingList.displayMessage(result);
         }else{
-            DrawingList drawingList = new DrawingList();
-            drawingList.createListView(result);
+            caller.createListView(result);
         }
     }
 }
