@@ -78,6 +78,15 @@ public class MainActivity extends Activity {
         return;
     }
 
+    // start drawing activity on successful login
+    public static void startDrawingListActivity(String token){
+        MainActivity.token = token;
+        Intent intent = new Intent(MainActivity.context, DrawingList.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        //intent.putExtra("token", token);
+        MainActivity.context.startActivity(intent);
+    }
+
     private void showToolsDialog() {
         new ToolSettingsDialog(this, drawing.getToolBox());
     }

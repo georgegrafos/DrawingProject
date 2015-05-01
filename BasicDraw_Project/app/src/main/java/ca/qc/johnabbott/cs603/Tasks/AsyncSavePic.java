@@ -80,9 +80,10 @@ public class AsyncSavePic extends AsyncTask<String, Void, String> {
     // parameter "result" is the result of the return in doInBackground
     @Override
     protected void onPostExecute(String result) {
-        if(this.success)
+        if(this.success) {
             MainActivity.displayMessage("Picture saved!");
-        else
+            MainActivity.startDrawingListActivity(this.token);
+        }else
             MainActivity.displayMessage(result);
         return;
     }
