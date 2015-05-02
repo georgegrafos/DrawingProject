@@ -1,10 +1,6 @@
 package ca.qc.johnabbott.cs603.Tasks;
 
 import android.os.AsyncTask;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -14,42 +10,55 @@ import java.util.Scanner;
 import ca.qc.johnabbott.cs603.DrawingList;
 
 /**
- * Created by George on 15-04-26.
+ * Created by AlexGenio on 15-05-01.
  */
-public class AsyncDrawingList extends AsyncTask<String, Void, String> {
+public class AsyncDeletePic extends AsyncTask<String, Void, String> {
     private String token;
+    private Integer picID;
     private DrawingList caller;
+    private int position;
+    private Boolean success;
 
-    public AsyncDrawingList(String token, DrawingList caller) {
-        this.caller = caller;
+    public AsyncDeletePic(String token, Integer picID, DrawingList caller, int position){
         this.token = token;
+        this.picID = picID;
+        this.caller = caller;
+        this.position = position;
+        this.success = false;
     }
 
     @Override
     protected String doInBackground(String... params) {
         URL url;
+        HttpURLConnection con= null;
+        // TODO Auto-generated method stub
         try {
-            // Create the GET request
-            url = new URL("http://linux2-cs.johnabbott.qc.ca/~cs506_f14_10/androidApp/API/get_picts.php?token=" + this.token);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            //Create connection
+            url = new URL("http://linux2-cs.johnabbott.qc.ca/~cs506_f14_10/androidApp/API/delete_pic.php?token=" + this.token.toString() + "&picture_id=" + this.picID.toString());
+            con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
 
             con.setDoInput(true);
             con.setChunkedStreamingMode(0);
 
-            // communication was successful?
             if (con.getResponseCode() == 200) {
                 // retrieve the output from the request
                 Scanner scanner = new Scanner(con.getInputStream()).useDelimiter("\\A");
                 String response = scanner.hasNext() ? scanner.next() : "";
 
-                // handle the output cases
-                if(response.equalsIgnoreCase("empty")) {
+                if (response.equalsIgnoreCase("error-1")) {
+                    return "Blank Picture ID";
+                } else if (response.equalsIgnoreCase("invalid/expired token")) {
+                    return "Expired Token";
+                } else if (response.equalsIgnoreCase("empty")) {
                     return "Empty";
-                }else{
+                } else if (response.equalsIgnoreCase("invalid picture ID")) {
+                    return "Invalid Picture ID";
+                } else {
+                    this.success = true;
                     return response;
                 }
-            }else{
+            } else {
                 return "Connection could not be established, check your network connection";
             }
         }catch (MalformedURLException e){
@@ -65,10 +74,9 @@ public class AsyncDrawingList extends AsyncTask<String, Void, String> {
     // parameter "result" is the result of the return in doInBackground
     @Override
     protected void onPostExecute(String result) {
-        if(result.equals("Empty")) {
-            DrawingList.displayMessage("You have no drawings!");
-        }else{
-            caller.createListView(result);
-        }
+        if(this.success)
+            caller.updateList(this.position);
+        DrawingList.displayMessage(result);
+        return;
     }
 }
