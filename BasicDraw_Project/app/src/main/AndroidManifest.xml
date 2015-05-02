@@ -28,6 +28,9 @@
         <activity
             android:name=".DrawingList"
             android:label="@string/title_activity_drawing_list" />
+        <activity
+            android:name=".PictureView"
+            android:label="@string/title_activity_pic_viewer" />
     </application>
 
 </manifest>

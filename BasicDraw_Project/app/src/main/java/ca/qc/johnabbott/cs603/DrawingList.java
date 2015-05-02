@@ -8,7 +8,6 @@ import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.AlignmentSpan;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.content.Context;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -28,6 +26,7 @@ import java.util.List;
 
 import ca.qc.johnabbott.cs603.Tasks.AsyncDeletePic;
 import ca.qc.johnabbott.cs603.Tasks.AsyncDrawingList;
+import ca.qc.johnabbott.cs603.Tasks.AsyncViewPic;
 
 
 public class DrawingList extends Activity {
@@ -42,16 +41,13 @@ public class DrawingList extends Activity {
         setContentView(R.layout.activity_drawing_list);
         MainActivity.context = getApplicationContext();
 
-        // get token from LoginActivity
-        //Intent intent = getIntent();
-        //String token = intent.getStringExtra("token");
-
         this.identifiers = new ArrayList<Integer>();
         this.drawingView = (ListView) findViewById(android.R.id.list);
 
         AsyncDrawingList drawingListTask = new AsyncDrawingList(MainActivity.token, this);
         drawingListTask.execute();
 
+        // user presses and holds on list item
         this.drawingView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -59,11 +55,24 @@ public class DrawingList extends Activity {
                 return true;
             }
         });
+
+        // user clicks on list item to view it
+        this.drawingView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                viewPicture(position);
+            }
+        });
     }
 
     private void deletePicture(int position){
-        AsyncDeletePic delete = new AsyncDeletePic(MainActivity.token, identifiers.get(position), this, position);
+        AsyncDeletePic delete = new AsyncDeletePic(MainActivity.token, this.identifiers.get(position), this, position);
         delete.execute();
+    }
+
+    private void viewPicture(int position){
+        AsyncViewPic viewPic = new AsyncViewPic(MainActivity.token, this.identifiers.get(position), this);
+        viewPic.execute();
     }
 
     @Override
@@ -145,4 +154,9 @@ public class DrawingList extends Activity {
         current.show();
     }
 
+    public void startPictureViewerActivity(String response){
+        Intent intent = new Intent(this, PictureView.class);
+        intent.putExtra("json", response);
+        startActivity(intent);
+    }
 }

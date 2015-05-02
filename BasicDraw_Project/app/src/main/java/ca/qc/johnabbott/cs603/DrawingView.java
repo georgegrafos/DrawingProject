@@ -15,6 +15,7 @@ public class DrawingView extends View {
     private Picture picture;
     private ToolBox toolbox;
     private Paint paint;
+    private Boolean viewMode;
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.picture = new Picture();
@@ -22,6 +23,7 @@ public class DrawingView extends View {
         toolbox.changeTool(ToolName.LINE);
         paint = new Paint();
         paint.setAntiAlias(true);
+        this.viewMode = false;
     }
 
     @Override
@@ -35,23 +37,25 @@ public class DrawingView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch(event.getActionMasked()) {
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-                toolbox.getCurrentTool().setPreview(true);
-                toolbox.getCurrentTool().touchStart(event);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                toolbox.getCurrentTool().touchMove(event);
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-                toolbox.getCurrentTool().setPreview(false);
-                toolbox.getCurrentTool().touchEnd(event);
-                break;
+        if(!this.viewMode) {
+            switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    toolbox.getCurrentTool().setPreview(true);
+                    toolbox.getCurrentTool().touchStart(event);
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    toolbox.getCurrentTool().touchMove(event);
+                    break;
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_POINTER_UP:
+                    toolbox.getCurrentTool().setPreview(false);
+                    toolbox.getCurrentTool().touchEnd(event);
+                    break;
 
-            default:
-                toolbox.getCurrentTool().touchMove(event);
+                default:
+                    toolbox.getCurrentTool().touchMove(event);
+            }
         }
         return true;
     }
@@ -70,5 +74,9 @@ public class DrawingView extends View {
 
     public Picture getPicture() {
         return picture;
+    }
+
+    public void setViewMode(Boolean val){
+        this.viewMode = val;
     }
 }
