@@ -83,6 +83,11 @@ public class AsyncSavePic extends AsyncTask<String, Void, String> {
         if(this.success) {
             MainActivity.displayMessage("Picture saved!");
             MainActivity.startDrawingListActivity(this.token);
+        }else if(result.equals("Expired Token")) {
+            MainActivity.displayMessage(result);
+            // if token is expired, log user out
+            AsyncLogout logoutTask = new AsyncLogout();
+            logoutTask.execute();
         }else
             MainActivity.displayMessage(result);
         return;

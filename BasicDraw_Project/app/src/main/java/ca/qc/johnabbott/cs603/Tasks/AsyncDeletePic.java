@@ -77,6 +77,12 @@ public class AsyncDeletePic extends AsyncTask<String, Void, String> {
         if(this.success)
             caller.updateList(this.position);
         DrawingList.displayMessage(result);
+        
+        // if token is expired, log user out
+        if(result.equals("Expired Token")) {
+            AsyncLogout logoutTask = new AsyncLogout();
+            logoutTask.execute();
+        }
         return;
     }
 }

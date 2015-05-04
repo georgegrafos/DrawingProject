@@ -75,6 +75,12 @@ public class AsyncViewPic extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         if(this.success)
             caller.startPictureViewerActivity(result);
+        else if(result.equals("Expired Token")) {
+            DrawingList.displayMessage(result);
+            // if token is expired, log user out
+            AsyncLogout logoutTask = new AsyncLogout();
+            logoutTask.execute();
+        }
         else
             DrawingList.displayMessage(result);
         return;
