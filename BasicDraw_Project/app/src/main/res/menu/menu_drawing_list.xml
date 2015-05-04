@@ -4,4 +4,6 @@
     tools:context="ca.qc.johnabbott.cs603.DrawingList">
     <item android:id="@+id/action_draw" android:title="@string/action_draw"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/list_logout" android:title="@string/logout"
+        android:orderInCategory="100" app:showAsAction="never" />
 </menu>

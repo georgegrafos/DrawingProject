@@ -26,6 +26,7 @@ import java.util.List;
 
 import ca.qc.johnabbott.cs603.Tasks.AsyncDeletePic;
 import ca.qc.johnabbott.cs603.Tasks.AsyncDrawingList;
+import ca.qc.johnabbott.cs603.Tasks.AsyncLogout;
 import ca.qc.johnabbott.cs603.Tasks.AsyncViewPic;
 
 
@@ -88,13 +89,16 @@ public class DrawingList extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_draw) {
-            Intent intent = new Intent(DrawingList.this, MainActivity.class);
-            startActivity(intent);
-            return true;
+        switch(item.getItemId()) {
+            case R.id.action_draw:
+                Intent intent = new Intent(DrawingList.this, MainActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.list_logout:
+                AsyncLogout logoutTask = new AsyncLogout();
+                logoutTask.execute();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -158,5 +162,11 @@ public class DrawingList extends Activity {
         Intent intent = new Intent(this, PictureView.class);
         intent.putExtra("json", response);
         startActivity(intent);
+    }
+
+    public static void redirectToLogin() {
+        Intent intent = new Intent(MainActivity.context, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        MainActivity.context.startActivity(intent);
     }
 }

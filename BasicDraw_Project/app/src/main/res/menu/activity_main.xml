@@ -1,12 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<item android:id="@+id/menu_save"
-    android:title="Save Picture"
-    app:showAsAction="always"/>
-<item android:id="@+id/menu_menu"
-    android:title="Menu"
-    app:showAsAction="always"/>
-<item android:id="@+id/menu_tools"
-    android:title="Tools"
-    app:showAsAction="always"/>
+    <item android:id="@+id/menu_save"
+        android:title="Save Picture"
+        app:showAsAction="always"/>
+    <item android:id="@+id/menu_menu"
+        android:title="Menu"
+        app:showAsAction="always"/>
+    <item android:id="@+id/menu_tools"
+        android:title="Tools"
+        app:showAsAction="always"/>
+    <item android:id="@+id/menu_logout"
+        android:title="@string/logout"
+        app:showAsAction="always" />
 </menu>

@@ -25,6 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import ca.qc.johnabbott.cs603.Tasks.AsyncLogout;
 import ca.qc.johnabbott.cs603.Tasks.AsyncSavePic;
 
 public class MainActivity extends Activity {
@@ -52,7 +53,6 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch(item.getItemId()){
             case R.id.menu_tools:
                 showToolsDialog();
@@ -63,6 +63,10 @@ public class MainActivity extends Activity {
             case R.id.menu_save:
                 //prompt user for the name of picture
                 setPictureNameDialog(getApplicationContext());
+                return true;
+            case R.id.menu_logout:
+                AsyncLogout logoutTask = new AsyncLogout();
+                logoutTask.execute();
                 return true;
         }
         return super.onOptionsItemSelected(item);

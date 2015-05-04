@@ -25,6 +25,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_draw">New Drawing</string>
+    <string name="logout">Logout</string>
     <string name="title_activity_drawing_list">DrawingList</string>
     <string name="title_activity_pic_viewer">Picture Viewer</string>
 
